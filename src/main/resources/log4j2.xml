@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+        <RollingFile name="exception_file" fileName="/home/ccdid/logs/app/exception/exception.log" filePattern="/home/ccdid/logs/app/exception/%d{yyyy-MM-dd-HH}/%d{HH_mm}.log">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <Policies>
+                <!-- interval(default 1)이므로 1분 간격으로 rolling 수행 -->
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="information_file" fileName="/home/ccdid/logs/app/information/information.log" filePattern="/home/ccdid/logs/app/information/%d{yyyy-MM-dd}/%d{HH}.log">
+            <PatternLayout pattern="%d{HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n" />
+            <Policies>
+                <!-- interval(default 1)이므로 1시간 간격으로 rolling 수행 -->
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="egovframework.kt.dxp.api" level="INFO" additivity="false">
+            <AppenderRef ref="information_file" />
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.egovframe" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+          <!-- log SQL with timing information, post execution -->
+        <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+</Configuration>
